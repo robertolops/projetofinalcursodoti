@@ -1,0 +1,373 @@
+Aula de Banco de Dados
+
+Criando procedure de bakup
+
+1ª Etapa
+create table backup_tabelas.cargos select * from itau.cargos;
+create table backup_tabelas.funcionarios select * from itau.funcionarios;
+create table backup_tabelas.clientes select * from itau.clientes;
+create table backup_tabelas.marcas select * from itau.marcas;
+create table backup_tabelas.produtos select * from itau.produtos;
+
+2ª Etapa 
+Criar arquivo para excluir tabelas
+
+drop table backup_tabelas.cargos;
+drop table backup_tabelas.funcionarios;
+drop table backup_tabelas.clientes;
+drop table backup_tabelas.marcas;
+drop table backup_tabelas.produtos;
+
+3ª Etapa é construir a procedure
+
+
+
+
+
+
+Inserindo dados na tabela de musica, gravadora e CD
+=========================================
+
+insert into itau.gravadora
+(nome_gravadora,site)
+values
+("Sony","www.sony.com.br");
+
+insert into itau.musicas
+(nome_musica,tempo_duracao)
+values
+("Minha prima","00:02:50");
+
+insert into itau.cd
+(nome_cd,codigo_musica,codigo_gravadora)
+values
+("Lavo ta novo",1,1);
+
+
+
+Trazer o relacionamento em um select com os campos abaixo:
+=========================================================
+
+select f.nomefuncionario,c.nomecargo,c.valorcargo
+from itau.cargos as c
+inner join itau.funcionarios as f 
+on(c.codcargo=f.codcargo);
+
+Inner join permite mostrar os registros nos quais os campos estão com igualde de relacionamento de
+registros
+=========================================================
+
+select f.nomefuncionario,c.nomecargo,c.valorcargo
+from itau.cargos as c
+left join itau.funcionarios as f 
+on(c.codcargo=f.codcargo);
+
+Left join ermite mostrar os registros nos quais os campos estão com igualde de relacionamento de
+registros e os campos da tabela da esquerda que estiverem sem registros ele mostra como num,
+indicando um futuro relacionamento.
+
+
+
+
+
+Como fazer o relacionamento de tabelas com o SQL nativo
+
+create table itau.cargos(
+codcargo  char(2) not null,
+nomecargo varchar(50)not null,
+valorcargo decimal(8,2) not null,
+primary key (codcargo)
+);
+
+create table itau.funcionarios(
+matricula int not null auto_increment,
+nomefuncionario varchar(50) not null,
+codcargo char(2) not null,
+primary key(matricula),
+foreign key (codcargo) references cargos(codcargo)
+);
+
+insert into itau.cargos
+(codcargo,nomecargo,valorcargo)
+values
+("C1","Analista de Sistemas",5890.99),
+("C2","DBA",7000.00),
+("C3","Analista de Suporte",4500.00),
+("C4","Gerente Financeiro",6000.00);
+
+insert into itau.funcionarios
+(nomefuncionario,codcargo)
+values
+("Viviane Cristina","C1"),
+("Rodney Azevedo","C2"),
+("Roberto Lopes","C2"),
+("Vitor Lucas","C4"),
+("Tarciano Pereira","C3");
+
+
+
+Comando select fazendo o relacionamento das tabelas Produtos x Marca
+========================================================
+select p.nome_produto,m.nome_marca
+from itau.marcas as m,
+itau.produtos as p
+where (p.cod_marca=m.cod_marca) order by nome_produto;
+
+
+
+
+
+Inserindo produtos na tabela de produtos
+==================================
+insert into itau.produtos
+(nome_produto,categoria_produto,cod_marca)
+values
+("Batedeira","Eletrodoméstico",1),
+("Cafeteira","Eletrodoméstico",1),
+("Geladeira","Eletrodoméstico",2),
+("Fogão","Eletrodoméstico",2),
+("TV","Eletrônico",3),
+("Microondas","Eletrodoméstico",2),
+("MicroSystem","Eletrônico",3),
+("Telefone sem Fio","Eletrônico",4);
+
+
+
+
+Criando relacionamento entre tabelas utilizando o DBDesigner
+================================================
+Tabela de Produtos x Tabela de Marcas
+
+CREATE TABLE `Produtos` (
+	`cod_produto` int NOT NULL AUTO_INCREMENT,
+	`nome_produto` varchar(50) NOT NULL,
+	`categoria_produto` varchar(50) NOT NULL,
+	`cod_marca` int NOT NULL,
+	PRIMARY KEY (`cod_produto`)
+);
+
+CREATE TABLE `Marcas` (
+	`cod_marca` int NOT NULL AUTO_INCREMENT,
+	`nome_marca` varchar(50) NOT NULL,
+	PRIMARY KEY (`cod_marca`)
+);
+
+ALTER TABLE `Produtos` ADD CONSTRAINT `Produtos_fk0` FOREIGN KEY (`cod_marca`) REFERENCES `Marcas`(`cod_marca`);
+
+
+Inserindo registros na Tabela de Marcas
+
+insert into itau.marcas
+(nome_marca)
+values
+("Walita"),
+("Brastemp"),
+("LG"),
+("Sony"),
+("Cadence");
+
+
+
+
+
+
+
+
+
+
+Utilização do Having dentro do Group By
+=================================
+SELECT 
+    nome_vendedor,
+    sum(valor_unitario_produto*quantidade_produtos) as Total_Vendido,
+    cidade_venda
+FROM
+    itau.vendas 
+GROUP BY nome_vendedor,cidade_venda  having sum(valor_unitario_produto*quantidade_produtos)>5000;
+
+OBS.: O having é somente utilizado quando queremos fazer um filtro de condição dentro de um agrupamento.
+
+
+Utilizando o Group By por Vendedores e Cidade
+====================================
+SELECT 
+    nome_vendedor,
+    sum(valor_unitario_produto*quantidade_produtos) as Total_Vendido,
+    cidade_venda
+FROM
+    itau.vendas
+GROUP BY nome_vendedor,cidade_venda order by nome_vendedor;
+
+
+
+Utilizando o Group By por venda de Vendedores
+=====================================
+SELECT 
+    nome_vendedor,
+    sum(valor_unitario_produto*quantidade_produtos) as Total_Vendido
+FROM
+    itau.vendas
+GROUP BY nome_vendedor order by nome_vendedor;
+
+
+
+
+Inserindo novos registros na tabela de vendas 
+===================================
+insert into itau.vendas
+(nome_vendedor,quantidade_produtos,nome_produto,cidade_venda,valor_unitario_produto)
+values
+("Cristina",100,"Mouse","Minas Gerais",29.99),
+("Ricardo Alexandre",250,"Teclado","São Paulo",35.99),
+("Edison",300,"Pendrive","Minas Gerais",32.99);
+
+
+
+Utilizando o comando group by, na quebra de registros com a condição where
+============================================================
+SELECT 
+    cidade_venda, SUM(quantidade_produtos*valor_unitario_produto) AS total_mouse
+FROM
+    itau.vendas
+WHERE
+    nome_produto = 'mouse'
+GROUP BY cidade_venda;
+
+
+
+Utilizando o comando group by, quebra de registros por grupo
+===============================================
+
+SELECT 
+    nome_vendedor,
+    sum(valor_unitario_produto*quantidade_produtos) as Total_Vendido,
+    nome_produto,
+    cidade_venda
+FROM
+    itau.vendas
+GROUP BY cidade_venda , nome_produto order by cidade_venda;
+
+
+
+
+
+
+
+
+Criação da tabela de vendas 
+======================
+create table itau.vendas(
+id_venda int not null auto_increment primary key,
+nome_vendedor varchar(50) not null,
+quantidade_produtos int not null,
+nome_produto varchar(60) not null,
+cidade_venda varchar(50) not null
+);
+
+=======================
+Inserindo um novo campo na tabela de vendas
+alter table itau.vendas add valor_unitario_produto decimal(8,2) not null;
+
+
+=======================
+Insert dos produtos na tabela de vendas 
+
+insert into itau.vendas
+(nome_vendedor,quantidade_produtos,nome_produto,cidade_venda,valor_unitario_produto)
+values
+("Paulo",100,"Mouse","São Paulo",29.99),
+("Pedro",50,"Teclado","São Paulo",35.99),
+("Sandra",200,"Pendrive","Rio de Janeiro",15.75),
+("Cristina",300,"Impressoras","São Paulo",450.80),
+("Edison",60,"Mouse","Rio de Janeiro",25.99),
+("Gustavo",200,"Monitores","São Paulo",350.80),
+("Gabriela",100,"Scanner","Rio de Janeiro",280.50);
+
+
+
+
+
+Processo de Migração de Banco de Dados = Caso Unibanco p/ Itau
+====================================================
+
+Processo de migração de dados com o select na tabela do unibanco já normalizado com os campos 
+
+insert into itau.clientes
+(codigo_cliente,nome_cliente,cpf_cliente,endereco_cliente,bairro_cliente,cep_cliente,estado_cliente,cidade_cliente,agencia_cliente,conta_corrente_cliente,dig_verificador_cliente,telefone_cliente,email_cliente,data_modificacao_cliente)
+select codigo_cliente,nome_cliente,"atualiza",endereco_cliente,"atualiza","00000000","XX","atualiza","0191","00000","0","000000000",email_cliente,now() from unibanco.clientes;
+
+
+
+
+Criando uma nova tabela de clientes para o processo de migração 
+===================================================
+
+create table itau.clientes(
+codigo_cliente int not null,
+nome_cliente varchar(50) not null,
+cpf_cliente char(11) not null,
+endereco_cliente varchar(60) not null,
+bairro_cliente varchar(40) not null,
+cep_cliente char(9) not null,
+estado_cliente char(2) not null, 
+cidade_cliente varchar(40) not null,
+agencia_cliente char(4) not null,
+conta_corrente_cliente varchar(8) not null,
+dig_verificador_cliente int(1) not null,
+telefone_cliente char(12) not null,
+email_cliente varchar(80) not null,
+data_modificacao_cliente datetime,
+primary key (codigo_cliente,cpf_cliente)
+);
+
+
+
+
+
+
+==================================
+Uso do percentual junto ao comando like
+OBS.: O % permite atuar junto com o comando like como um coringa trazendo sempre as informações
+contidas dentro de uma string
+
+Exemplos:
+select * from itau.clientes where nome_cliente like "Antonio%";
+
+select * from itau.clientes where nome_cliente like "%Carlos";
+
+select * from itau.clientes where nome_cliente like "%M.%";
+
+
+
+-- Permite criar um campo na tabela
+alter table itau.clientes add endereco varchar(80) not null;
+
+-- Permite excluir um campo na tabela
+alter table itau.clientes drop endereco;
+
+-- Permite renomear um campo na tabela
+alter table itau.clientes rename column endereco to endereco_cliente;
+
+
+-- Comando utilizado para criar o database.
+-- create database itau;
+
+-- Comando utilizado para por o banco de dados em uso.
+-- use itau;
+
+-- Criação do banco de dados clientes
+/*create table itau.clientes(
+codigo_cliente int not null primary key,
+nome_cliente varchar(50) not null,
+idade_cliente int(3) not null,
+email_cliente varchar(80) not null
+);*/
+
+
+insert into itau.clientes
+(codigo_cliente,nome_cliente,idade_cliente,email_cliente)
+values
+(1,"Ricardo Alexandre",47,"ricardo.a@gama.com.br"),
+(2,"Antonio Carlos",22,"antonio.c@itau.com.br"),
+(3,"Rogerio Esteves",19,"rogerioe@itau.com.br"),
+(4,"Renata Silva Tomaz",18,"renatas@itau.com.br");

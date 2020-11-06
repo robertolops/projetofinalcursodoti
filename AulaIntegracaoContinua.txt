@@ -1,0 +1,98 @@
+Server: sql10.freemysqlhosting.net
+Name: sql10374652
+Username: sql10374652
+Password: cYsYkrdQ4C
+Port number: 3306
+
+DATABASE_URL_LOCAL = mysql://localhost:3306/itaumon?useTimezone=true&serverTimezone=UTC
+
+DATABASE_URL = mysql://sql10.freemysqlhosting.net:3306/sql10374652?useTimezone=true&serverTimezone=UTC
+USER = sql10374652
+PASSWORD = cYsYkrdQ4C
+
+
+
+
+
+:::::::: Hoje ::::::::
+
+Criar a conta no 
+http://heroku.com/
+
+Criar a conta no github se não tiver
+https://github.com/
+
+Download e install heroku cli
+https://devcenter.heroku.com/articles/heroku-cli
+
+Download e install vscode
+https://code.visualstudio.com/download
+
+Download e install GIT
+https://git-scm.com/downloads
+
+
+
+:::::::: Instaladores ::::::::
+ 
+Node.js
+https://nodejs.org/en/download/
+
+Jenkins
+https://www.jenkins.io/download/
+
+
+:::::::: MYSQL FREE ::::::::
+https://www.freemysqlhosting.net
+
+
+
+:::::::: Projetos ::::::::
+https://github.com/Didox/itau-treinamento-turma10B
+https://github.com/Didox/turma_devops
+https://github.com/Didox/app_um_minuto_cliente_produto
+https://github.com/Didox/kitutes-donate-treinamento-itau
+https://github.com/Didox/validar-cpf-back-spring-boot
+https://github.com/torneseumprogramador/itaumonback-java-spring-boot
+https://github.com/Didox/validar-cpf-front-js-vanilla
+
+
+
+:::::::: Comandos ::::::::
+heroku --version
+rake db:migrate
+git clone [URL DO REPO]
+cd [PASTA CLONE]
+code .
+git status
+git init
+heroku login -i
+heroku create [NOME_DA_APP]
+git push heroku master
+git add .
+git commit -am "mensagem"
+git push heroku master 
+npm install
+npm start
+localhost:3000
+npm run tdd
+npm run bdd
+npx cypress open
+Build > Tdd > Bdd > Dev > Homolog > Prod
+Como recriar usuario adm jenkins
+http://abhijitkakade.com/2019/06/how-to-reset-jenkins-admin-users-password/
+git pull --force
+npm install
+npm run tdd
+npm run bdd
+
+:::: Roda Aplicação em background
+START /B npm start 2>&1 
+
+
+
+:::::::: Aulas ::::::::
+http://www.torneseumprogramador.com.br/aula?id=xTTVyD2WrnU&aula=31&tipo=back-end&professor=Danilo
+http://www.torneseumprogramador.com.br/aula?id=kRy_VVLWtf4&aula=41&tipo=back-end&professor=Danilo
+http://www.torneseumprogramador.com.br/aula?id=l1JHNPjpEW4&aula=54&tipo=ruby&professor=Danilo
+http://www.torneseumprogramador.com.br/aulas/integracao-continua
